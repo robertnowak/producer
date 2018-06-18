@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.toomuchcoding.jsonassert:jsonassert:0.4.12">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.toomuchcoding.jsonassert/jsonassert/0.4.12/4a4876eb618ad4512fafb390011bdcdc06bd860f/jsonassert-0.4.12.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.toomuchcoding.jsonassert/jsonassert/0.4.12/b76432b80ab2c34cdac310f99e98f5e012fbbf51/jsonassert-0.4.12-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

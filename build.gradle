@@ -1,0 +1,95 @@
+buildscript {
+    ext.kotlin_version = '1.2.41'
+    ext.verifier_version = '2.0.0 RC2'
+    ext.springboot_version = '2.0.2.RELEASE'
+
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE"
+        // if using Stub Runner (consumer side) only remove this dependency
+        classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:2.0.0.RC2"
+        classpath(                "org.springframework.boot:spring-boot-gradle-plugin:${springboot_version}")
+        classpath ("org.jetbrains.kotlin:kotlin-allopen:$kotlin_version")
+    }
+
+}
+
+group 'pl.rn.devday.scc'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+apply plugin: 'groovy'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'idea'
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'spring-cloud-contract'
+apply plugin: 'org.springframework.boot'
+
+
+
+repositories {
+    mavenCentral()
+}
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-contract-dependencies:2.0.0.RC2'
+    }
+}
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+
+    // Jackson Dependencies
+    compile "com.fasterxml.jackson.core:jackson-annotations"
+    compile "com.fasterxml.jackson.core:jackson-core"
+    compile "com.fasterxml.jackson.core:jackson-databind"
+    runtime "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
+    runtime "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    runtime "com.fasterxml.jackson.module:jackson-module-kotlin"
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+//    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+//    testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
+    testCompile 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+buildscript {
+    repositories {
+        maven {
+            url 'https://repo.spring.io/libs-milestone'
+        }
+    }
+}
+
+repositories {
+    maven {
+        url 'https://repo.spring.io/libs-milestone'
+    }
+}
+
+mainClassName = 'pl.rn.scc.AppRunner'
+
+contracts {
+    testMode = 'MockMvc'
+    baseClassForTests = 'pl.rn.scc.MvcTest'
+    generatedTestSourcesDir = project.file('src/generatedContract')
+}
